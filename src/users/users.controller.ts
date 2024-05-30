@@ -1,13 +1,21 @@
-import { Body, Controller, Get, Param, Post, Req } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Req, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { LoginDTO } from '../interfaces/login.dto';
 import { RegisterDTO } from '../interfaces/register.dto';
 import { RequestWithUser } from 'src/interfaces/request-user';
 import { Request } from 'express';
+import { UserEntity } from 'src/entities/user.entity';
+import { AuthGuard } from 'src/middlewares/auth.middleware';
 
 @Controller('')
 export class UsersController {
   constructor(private service: UsersService) {}
+
+  @UseGuards(AuthGuard)
+  @Get('me')
+  me(@Req() req: Request & { user: UserEntity }) {
+    return req.user.firstName;
+  }
 
   @Post('login')
   login(@Body() body: LoginDTO) {

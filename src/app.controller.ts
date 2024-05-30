@@ -6,6 +6,6 @@ export class AppController {
 
   @Get()
   getHello(): string {
-    return 'status:OK';
+    return 'status:Hola loquito todo correcto, aguante el dortmund';
   }
 }

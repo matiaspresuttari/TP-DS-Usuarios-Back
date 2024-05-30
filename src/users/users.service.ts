@@ -1,10 +1,11 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { HttpException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { LoginDTO } from 'src/interfaces/login.dto';
 import { RegisterDTO } from 'src/interfaces/register.dto';
 import { UserI } from 'src/interfaces/user.interface';
 import { UserEntity } from '../entities/user.entity';
 import { hashSync, compareSync } from 'bcrypt';
 import { JwtService } from 'src/jwt/jwt.service';
+
 
 @Injectable()
 export class UsersService {
@@ -18,10 +19,16 @@ export class UsersService {
   async canDo(user: UserI, permission: string) {}
 
   async register(body: RegisterDTO) {
-    const user = new UserEntity();
-    Object.assign(user, body);
-    user.password = hashSync(user.password, 10);
-    return await this.repository.save(user);
+    try {
+      const user = new UserEntity();
+      Object.assign(user, body);
+      user.password = hashSync(user.password, 10);
+      await this.repository.save(user);
+      return { status: 'created'};
+    } catch (error) {
+      throw new HttpException('Error de creacion',500);
+    }
+    
   }
 
   async login(body: LoginDTO) {

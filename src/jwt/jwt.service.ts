@@ -1,7 +1,9 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { sign, verify } from 'jsonwebtoken';
 import { Payload } from 'src/interfaces/payload';
+
 @Injectable()
+
 export class JwtService {
   // config.ts
   config = {
@@ -44,6 +46,7 @@ export class JwtService {
       throw new UnauthorizedException()
     }
   }
-
-  getPayload(token: string, type: 'refresh' | 'auth' = 'auth') {}
+  getPayload(token: string, type: 'refresh' | 'auth' = 'auth'): Payload{
+    return verify(token, this.config[type].secret) as Payload;
+  }
 }
