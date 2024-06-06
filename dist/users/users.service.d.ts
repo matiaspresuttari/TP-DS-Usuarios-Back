@@ -14,7 +14,7 @@ export declare class UsersService {
         accessToken: string;
         refreshToken?: undefined;
     }>;
-    canDo(user: UserI, permission: string): Promise<void>;
+    canDo(user: UserI, permission: string): Promise<boolean>;
     register(body: RegisterDTO): Promise<{
         status: string;
     }>;

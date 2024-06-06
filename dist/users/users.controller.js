@@ -17,9 +17,13 @@ const common_1 = require("@nestjs/common");
 const users_service_1 = require("./users.service");
 const login_dto_1 = require("../interfaces/login.dto");
 const register_dto_1 = require("../interfaces/register.dto");
+const auth_middleware_1 = require("../middlewares/auth.middleware");
 let UsersController = class UsersController {
     constructor(service) {
         this.service = service;
+    }
+    me(req) {
+        return req.user.firstName;
     }
     login(body) {
         return this.service.login(body);
@@ -36,6 +40,14 @@ let UsersController = class UsersController {
 };
 exports.UsersController = UsersController;
 __decorate([
+    (0, common_1.UseGuards)(auth_middleware_1.AuthGuard),
+    (0, common_1.Get)('me'),
+    __param(0, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "me", null);
+__decorate([
     (0, common_1.Post)('login'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -50,6 +62,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "register", null);
 __decorate([
+    (0, common_1.UseGuards)(auth_middleware_1.AuthGuard),
     (0, common_1.Get)('can-do/:permission'),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Param)('permission')),

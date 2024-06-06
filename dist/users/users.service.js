@@ -22,7 +22,13 @@ let UsersService = class UsersService {
     async refreshToken(refreshToken) {
         return this.jwtService.refreshToken(refreshToken);
     }
-    async canDo(user, permission) { }
+    async canDo(user, permission) {
+        const result = user.permissionCodes.includes(permission);
+        if (!result) {
+            throw new common_1.UnauthorizedException('Usuario no autorizado.');
+        }
+        return true;
+    }
     async register(body) {
         try {
             const user = new user_entity_1.UserEntity();

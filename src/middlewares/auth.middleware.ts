@@ -13,6 +13,7 @@ export class AuthGuard implements CanActivate {
         try {
             const request: Request & {user:UserEntity} = context.switchToHttp().getRequest();
             const token = request.headers.authorization;
+            console.log(token);
             if (token == null) {
                 throw new UnauthorizedException('El token no existe');
             }

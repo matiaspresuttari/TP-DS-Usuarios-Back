@@ -14,7 +14,7 @@ const common_1 = require("@nestjs/common");
 let AppController = class AppController {
     constructor() { }
     getHello() {
-        return 'status:OK';
+        return 'status:Hola loquito todo correcto, aguante el dortmund';
     }
 };
 exports.AppController = AppController;

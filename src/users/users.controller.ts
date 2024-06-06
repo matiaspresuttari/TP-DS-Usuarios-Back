@@ -27,9 +27,10 @@ export class UsersController {
     return this.service.register(body);
   }
 
+  @UseGuards(AuthGuard)
   @Get('can-do/:permission')
   canDo(
-    @Req() request: RequestWithUser,
+    @Req() request: Request & { user: UserEntity},
     @Param('permission') permission: string,
   ) {
     return this.service.canDo(request.user, permission);

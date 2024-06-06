@@ -1,3 +1,4 @@
+import { Payload } from 'src/interfaces/payload';
 export declare class JwtService {
     config: {
         auth: {
@@ -19,5 +20,5 @@ export declare class JwtService {
         accessToken: string;
         refreshToken?: undefined;
     };
-    getPayload(token: string, type?: 'refresh' | 'auth'): void;
+    getPayload(token: string, type?: 'refresh' | 'auth'): Payload;
 }

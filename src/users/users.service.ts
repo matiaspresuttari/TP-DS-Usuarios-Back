@@ -16,7 +16,14 @@ export class UsersService {
     return this.jwtService.refreshToken(refreshToken);
   }
 
-  async canDo(user: UserI, permission: string) {}
+  async canDo(user: UserI, permission: string) {
+    const result = user.permissionCodes.includes(permission);
+    if (!result) {
+      throw new UnauthorizedException('Usuario no autorizado.')
+    }
+    //Falta asignarle el permiso al usuario
+    return true;
+  }
 
   async register(body: RegisterDTO) {
     try {

@@ -46,7 +46,9 @@ let JwtService = class JwtService {
             throw new common_1.UnauthorizedException();
         }
     }
-    getPayload(token, type = 'auth') { }
+    getPayload(token, type = 'auth') {
+        return (0, jsonwebtoken_1.verify)(token, this.config[type].secret);
+    }
 };
 exports.JwtService = JwtService;
 exports.JwtService = JwtService = __decorate([
