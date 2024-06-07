@@ -1,5 +1,10 @@
 import { PermissionEntity } from 'src/entities/permissions.entity';
+import { Repository, DeepPartial } from 'typeorm';
 export declare class PermissionsService {
-    repository: typeof PermissionEntity;
-    newPermissions(): Promise<string>;
+    private repository;
+    constructor(repository: Repository<PermissionEntity>);
+    createPermissions(permission: DeepPartial<PermissionEntity>): Promise<PermissionEntity>;
+    findPermissions(): Promise<PermissionEntity[]>;
+    updatePermissionById(id: number, permission: DeepPartial<PermissionEntity>): Promise<PermissionEntity>;
+    deletePermissionById(id: number): Promise<PermissionEntity>;
 }
