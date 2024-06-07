@@ -9,47 +9,36 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserEntity = void 0;
+exports.RoleEntity = void 0;
 const typeorm_1 = require("typeorm");
-const role_entity_1 = require("./role.entity");
 const permissions_entity_1 = require("./permissions.entity");
-let UserEntity = class UserEntity extends typeorm_1.BaseEntity {
-    get permissionCodes() {
-        return ['create-users'];
-    }
+const user_entity_1 = require("./user.entity");
+let RoleEntity = class RoleEntity {
 };
-exports.UserEntity = UserEntity;
+exports.RoleEntity = RoleEntity;
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
-], UserEntity.prototype, "id", void 0);
+], RoleEntity.prototype, "id", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], UserEntity.prototype, "email", void 0);
+], RoleEntity.prototype, "code", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], UserEntity.prototype, "password", void 0);
+], RoleEntity.prototype, "description", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
-], UserEntity.prototype, "firstName", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
-], UserEntity.prototype, "lastName", void 0);
-__decorate([
-    (0, typeorm_1.ManyToMany)(() => role_entity_1.RoleEntity, role => role.users),
+    (0, typeorm_1.ManyToMany)(() => permissions_entity_1.PermissionEntity, permission => permission.roles),
     (0, typeorm_1.JoinTable)(),
     __metadata("design:type", Array)
-], UserEntity.prototype, "roles", void 0);
+], RoleEntity.prototype, "permissions", void 0);
 __decorate([
-    (0, typeorm_1.ManyToMany)(() => permissions_entity_1.PermissionEntity, permission => permission.users),
+    (0, typeorm_1.ManyToMany)(() => user_entity_1.UserEntity, user => user.roles),
     (0, typeorm_1.JoinTable)(),
     __metadata("design:type", Array)
-], UserEntity.prototype, "permissions", void 0);
-exports.UserEntity = UserEntity = __decorate([
-    (0, typeorm_1.Entity)('users')
-], UserEntity);
-//# sourceMappingURL=user.entity.js.map
+], RoleEntity.prototype, "users", void 0);
+exports.RoleEntity = RoleEntity = __decorate([
+    (0, typeorm_1.Entity)('roles')
+], RoleEntity);
+//# sourceMappingURL=role.entity.js.map

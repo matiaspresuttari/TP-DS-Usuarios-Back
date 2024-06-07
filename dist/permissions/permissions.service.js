@@ -6,17 +6,19 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AuthModule = void 0;
+exports.PermissionsService = void 0;
 const common_1 = require("@nestjs/common");
-const auth_service_1 = require("./auth.service");
-const auth_controller_1 = require("./auth.controller");
-let AuthModule = class AuthModule {
+const permissions_entity_1 = require("../entities/permissions.entity");
+let PermissionsService = class PermissionsService {
+    constructor() {
+        this.repository = permissions_entity_1.PermissionEntity;
+    }
+    async newPermissions() {
+        return 'This action adds a new permission';
+    }
 };
-exports.AuthModule = AuthModule;
-exports.AuthModule = AuthModule = __decorate([
-    (0, common_1.Module)({
-        providers: [auth_service_1.AuthService],
-        controllers: [auth_controller_1.AuthController]
-    })
-], AuthModule);
-//# sourceMappingURL=auth.module.js.map
+exports.PermissionsService = PermissionsService;
+exports.PermissionsService = PermissionsService = __decorate([
+    (0, common_1.Injectable)()
+], PermissionsService);
+//# sourceMappingURL=permissions.service.js.map

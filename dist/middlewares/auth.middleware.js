@@ -11,6 +11,7 @@ class AuthGuard {
         try {
             const request = context.switchToHttp().getRequest();
             const token = request.headers.authorization;
+            console.log(token);
             if (token == null) {
                 throw new common_1.UnauthorizedException('El token no existe');
             }

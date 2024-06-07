@@ -1,5 +1,7 @@
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, BaseEntity } from 'typeorm';
 import { UserI } from '../interfaces/user.interface';
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { RoleEntity } from './role.entity';
+import { PermissionEntity} from './permissions.entity';
 
 @Entity('users')
 export class UserEntity extends BaseEntity implements UserI {
@@ -13,6 +15,14 @@ export class UserEntity extends BaseEntity implements UserI {
   firstName: string;
   @Column()
   lastName: string;
+
+  @ManyToMany(() => RoleEntity, role => role.users)
+  @JoinTable()
+  roles: RoleEntity[];
+
+  @ManyToMany(() => PermissionEntity, permission => permission.users)
+  @JoinTable()
+  permissions: PermissionEntity[];
 
   get permissionCodes() {
     return ['create-users'];

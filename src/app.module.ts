@@ -5,6 +5,8 @@ import { entities } from './entities';
 import { UsersModule } from './users/users.module';
 import { JwtModule } from './jwt/jwt.module';
 import { AuthModule } from './auth/auth.module';
+import { PermissionsModule } from './permissions/permissions.module';
+import { RolesModule } from './roles/roles.module';
 
 @Module({
   imports: [
@@ -17,6 +19,8 @@ import { AuthModule } from './auth/auth.module';
     }),
     JwtModule,
     AuthModule,
+    PermissionsModule,
+    RolesModule,
   ],
   controllers: [AppController],
   providers: [],

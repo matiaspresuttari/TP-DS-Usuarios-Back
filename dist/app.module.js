@@ -14,6 +14,8 @@ const entities_1 = require("./entities");
 const users_module_1 = require("./users/users.module");
 const jwt_module_1 = require("./jwt/jwt.module");
 const auth_module_1 = require("./auth/auth.module");
+const permissions_module_1 = require("./permissions/permissions.module");
+const roles_module_1 = require("./roles/roles.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -29,6 +31,8 @@ exports.AppModule = AppModule = __decorate([
             }),
             jwt_module_1.JwtModule,
             auth_module_1.AuthModule,
+            permissions_module_1.PermissionsModule,
+            roles_module_1.RolesModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [],
