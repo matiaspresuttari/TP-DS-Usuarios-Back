@@ -1,16 +1,19 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable } from 'typeorm';
-import { PermissionEntity } from './permissions.entity';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, BaseEntity } from 'typeorm';
+import { PermissionEntity } from './permission.entity';
 import { UserEntity } from './user.entity';
 
 @Entity('roles')
-export class RoleEntity {
+export class RoleEntity extends BaseEntity{
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
+  name: string;
+  
+  @Column({ nullable: true })
   code: string;
 
-  @Column()
+  @Column({ nullable: true })
   description: string;
 
   @ManyToMany(() => PermissionEntity, permission => permission.roles)
@@ -21,5 +24,5 @@ export class RoleEntity {
   @ManyToMany(() => UserEntity, user => user.roles)
 
   @JoinTable()
-    users: UserEntity[];
+  users: UserEntity[];
 }

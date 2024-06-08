@@ -1,7 +1,9 @@
-import { PermissionEntity } from './permissions.entity';
+import { BaseEntity } from 'typeorm';
+import { PermissionEntity } from './permission.entity';
 import { UserEntity } from './user.entity';
-export declare class RoleEntity {
+export declare class RoleEntity extends BaseEntity {
     id: number;
+    name: string;
     code: string;
     description: string;
     permissions: PermissionEntity[];

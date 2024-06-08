@@ -1,13 +1,13 @@
 import { Body, Param, Post, Get, Put, Delete, Controller } from '@nestjs/common';
 import { PermissionsService } from './permissions.service';
-import { PermissionEntity } from 'src/entities/permissions.entity';
+import { PermissionEntity } from 'src/entities/permission.entity';
 import { DeepPartial } from 'typeorm';
 
 @Controller('permissions')
 export class PermissionsController {
     constructor(private permissionsService: PermissionsService) {}
     @Post()
-    async newPermissions( @Body() bodyCreatePermissions: DeepPartial<PermissionEntity>): Promise<PermissionEntity> {
+    async createPermissions( @Body() bodyCreatePermissions: DeepPartial<PermissionEntity>): Promise<PermissionEntity> {
         return await this.permissionsService.createPermissions(bodyCreatePermissions);
     }
 

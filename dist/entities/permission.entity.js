@@ -13,7 +13,7 @@ exports.PermissionEntity = void 0;
 const typeorm_1 = require("typeorm");
 const role_entity_1 = require("./role.entity");
 const user_entity_1 = require("./user.entity");
-let PermissionEntity = class PermissionEntity {
+let PermissionEntity = class PermissionEntity extends typeorm_1.BaseEntity {
 };
 exports.PermissionEntity = PermissionEntity;
 __decorate([
@@ -35,4 +35,4 @@ __decorate([
 exports.PermissionEntity = PermissionEntity = __decorate([
     (0, typeorm_1.Entity)()
 ], PermissionEntity);
-//# sourceMappingURL=permissions.entity.js.map
+//# sourceMappingURL=permission.entity.js.map

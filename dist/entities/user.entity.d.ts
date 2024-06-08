@@ -1,7 +1,7 @@
 import { BaseEntity } from 'typeorm';
 import { UserI } from '../interfaces/user.interface';
 import { RoleEntity } from './role.entity';
-import { PermissionEntity } from './permissions.entity';
+import { PermissionEntity } from './permission.entity';
 export declare class UserEntity extends BaseEntity implements UserI {
     id: number;
     email: string;

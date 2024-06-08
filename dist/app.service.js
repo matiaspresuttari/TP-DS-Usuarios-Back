@@ -6,20 +6,25 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.RolesModule = void 0;
+exports.AppService = void 0;
 const common_1 = require("@nestjs/common");
-const roles_controller_1 = require("./roles.controller");
-const roles_service_1 = require("./roles.service");
-const typeorm_1 = require("@nestjs/typeorm");
-const role_entity_1 = require("../entities/role.entity");
-let RolesModule = class RolesModule {
+let AppService = class AppService {
+    getHello() {
+        return 'Hello World!';
+    }
+    getVersion(query) {
+        if (query.all) {
+            return {
+                number: 1,
+                date: new Date(),
+                creator: 'Matías P.'
+            };
+        }
+        return "Version 1";
+    }
 };
-exports.RolesModule = RolesModule;
-exports.RolesModule = RolesModule = __decorate([
-    (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([role_entity_1.RoleEntity])],
-        controllers: [roles_controller_1.default],
-        providers: [roles_service_1.RolesService]
-    })
-], RolesModule);
-//# sourceMappingURL=roles.module.js.map
+exports.AppService = AppService;
+exports.AppService = AppService = __decorate([
+    (0, common_1.Injectable)()
+], AppService);
+//# sourceMappingURL=app.service.js.map

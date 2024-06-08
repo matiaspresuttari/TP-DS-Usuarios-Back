@@ -19,28 +19,68 @@ const login_dto_1 = require("../interfaces/login.dto");
 const register_dto_1 = require("../interfaces/register.dto");
 const auth_middleware_1 = require("../middlewares/auth.middleware");
 let UsersController = class UsersController {
-    constructor(service) {
-        this.service = service;
+    constructor(usersService) {
+        this.usersService = usersService;
+    }
+    async createUsers(bodyCreateUsers) {
+        return await this.usersService.createUsers(bodyCreateUsers);
+    }
+    async findUsers() {
+        return await this.usersService.findUsers();
+    }
+    async updateUserById(id, bodyUpdateUsers) {
+        return await this.usersService.updateUserById(id, bodyUpdateUsers);
+    }
+    async deleteUsetById(id) {
+        return await this.usersService.deleteUserById(id);
     }
     me(req) {
         return req.user.firstName;
     }
     login(body) {
-        return this.service.login(body);
+        return this.usersService.login(body);
     }
     register(body) {
-        return this.service.register(body);
+        return this.usersService.register(body);
     }
     canDo(request, permission) {
-        return this.service.canDo(request.user, permission);
+        return this.usersService.canDo(request.user, permission);
     }
     refreshToken(request) {
-        return this.service.refreshToken(request.headers['refresh-token']);
+        return this.usersService.refreshToken(request.headers['refresh-token']);
     }
 };
 exports.UsersController = UsersController;
 __decorate([
     (0, common_1.UseGuards)(auth_middleware_1.AuthGuard),
+    (0, common_1.Post)(),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], UsersController.prototype, "createUsers", null);
+__decorate([
+    (0, common_1.Get)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], UsersController.prototype, "findUsers", null);
+__decorate([
+    (0, common_1.Put)(':id'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Object]),
+    __metadata("design:returntype", Promise)
+], UsersController.prototype, "updateUserById", null);
+__decorate([
+    (0, common_1.Delete)(':id'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], UsersController.prototype, "deleteUsetById", null);
+__decorate([
     (0, common_1.Get)('me'),
     __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
@@ -78,7 +118,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "refreshToken", null);
 exports.UsersController = UsersController = __decorate([
-    (0, common_1.Controller)(''),
+    (0, common_1.Controller)('users'),
     __metadata("design:paramtypes", [users_service_1.UsersService])
 ], UsersController);
 //# sourceMappingURL=users.controller.js.map

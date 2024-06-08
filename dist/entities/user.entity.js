@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserEntity = void 0;
 const typeorm_1 = require("typeorm");
 const role_entity_1 = require("./role.entity");
-const permissions_entity_1 = require("./permissions.entity");
+const permission_entity_1 = require("./permission.entity");
 let UserEntity = class UserEntity extends typeorm_1.BaseEntity {
     get permissionCodes() {
         return ['create-users'];
@@ -45,7 +45,7 @@ __decorate([
     __metadata("design:type", Array)
 ], UserEntity.prototype, "roles", void 0);
 __decorate([
-    (0, typeorm_1.ManyToMany)(() => permissions_entity_1.PermissionEntity, permission => permission.users),
+    (0, typeorm_1.ManyToMany)(() => permission_entity_1.PermissionEntity, permission => permission.users),
     (0, typeorm_1.JoinTable)(),
     __metadata("design:type", Array)
 ], UserEntity.prototype, "permissions", void 0);

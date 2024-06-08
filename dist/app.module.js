@@ -9,33 +9,34 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const app_controller_1 = require("./app.controller");
+const app_service_1 = require("./app.service");
 const typeorm_1 = require("@nestjs/typeorm");
 const entities_1 = require("./entities");
-const users_module_1 = require("./users/users.module");
 const jwt_module_1 = require("./jwt/jwt.module");
 const auth_module_1 = require("./auth/auth.module");
 const permissions_module_1 = require("./permissions/permissions.module");
 const roles_module_1 = require("./roles/roles.module");
+const users_module_1 = require("./users/users.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            users_module_1.UsersModule,
             typeorm_1.TypeOrmModule.forRoot({
+                type: 'sqlite',
                 database: 'db.sql',
                 entities: entities_1.entities,
-                type: 'sqlite',
                 synchronize: true,
             }),
             jwt_module_1.JwtModule,
             auth_module_1.AuthModule,
             permissions_module_1.PermissionsModule,
             roles_module_1.RolesModule,
+            users_module_1.UsersModule
         ],
         controllers: [app_controller_1.AppController],
-        providers: [],
+        providers: [app_service_1.AppService],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

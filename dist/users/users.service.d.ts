@@ -3,10 +3,15 @@ import { RegisterDTO } from 'src/interfaces/register.dto';
 import { UserI } from 'src/interfaces/user.interface';
 import { UserEntity } from '../entities/user.entity';
 import { JwtService } from 'src/jwt/jwt.service';
+import { DeepPartial } from 'typeorm';
 export declare class UsersService {
     private jwtService;
     repository: typeof UserEntity;
     constructor(jwtService: JwtService);
+    createUsers(users: DeepPartial<UserEntity>): Promise<UserEntity>;
+    findUsers(): Promise<UserEntity[]>;
+    updateUserById(id: number, user: DeepPartial<UserEntity>): Promise<UserEntity>;
+    deleteUserById(id: number): Promise<UserEntity>;
     refreshToken(refreshToken: string): Promise<{
         accessToken: string;
         refreshToken: string;

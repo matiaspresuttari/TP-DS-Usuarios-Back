@@ -1,5 +1,5 @@
 import { UserEntity } from './user.entity';
-import { PermissionEntity } from './permissions.entity';
+import { PermissionEntity } from './permission.entity';
 import { RoleEntity } from './role.entity';
 
 

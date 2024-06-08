@@ -19,7 +19,7 @@ let PermissionsController = class PermissionsController {
     constructor(permissionsService) {
         this.permissionsService = permissionsService;
     }
-    async newPermissions(bodyCreatePermissions) {
+    async createPermissions(bodyCreatePermissions) {
         return await this.permissionsService.createPermissions(bodyCreatePermissions);
     }
     async findPermissions() {
@@ -39,7 +39,7 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
-], PermissionsController.prototype, "newPermissions", null);
+], PermissionsController.prototype, "createPermissions", null);
 __decorate([
     (0, common_1.Get)(),
     __metadata("design:type", Function),

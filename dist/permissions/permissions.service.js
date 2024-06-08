@@ -13,7 +13,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PermissionsService = void 0;
-const permissions_entity_1 = require("../entities/permissions.entity");
+const permission_entity_1 = require("../entities/permission.entity");
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
@@ -58,7 +58,7 @@ let PermissionsService = class PermissionsService {
 exports.PermissionsService = PermissionsService;
 exports.PermissionsService = PermissionsService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, typeorm_1.InjectRepository)(permissions_entity_1.PermissionEntity)),
+    __param(0, (0, typeorm_1.InjectRepository)(permission_entity_1.PermissionEntity)),
     __metadata("design:paramtypes", [typeorm_2.Repository])
 ], PermissionsService);
 //# sourceMappingURL=permissions.service.js.map

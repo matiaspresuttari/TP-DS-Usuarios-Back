@@ -1,4 +1,4 @@
-import { PermissionEntity } from 'src/entities/permissions.entity';
+import { PermissionEntity } from 'src/entities/permission.entity';
 import { Repository, DeepPartial } from 'typeorm';
 export declare class PermissionsService {
     private repository;

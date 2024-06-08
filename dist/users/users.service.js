@@ -19,6 +19,38 @@ let UsersService = class UsersService {
         this.jwtService = jwtService;
         this.repository = user_entity_1.UserEntity;
     }
+    async createUsers(users) {
+        try {
+            return await this.repository.save(users);
+        }
+        catch (error) {
+            throw new common_1.HttpException('Create product error', 500);
+        }
+    }
+    async findUsers() {
+        try {
+            return await this.repository.find();
+        }
+        catch (error) {
+            throw new common_1.HttpException('Find all products error', 500);
+        }
+    }
+    async updateUserById(id, user) {
+        const query = this.repository.createQueryBuilder('user')
+            .where('user.id = :id', { id });
+        const userActual = await query.getOne();
+        this.repository.merge(userActual, user);
+        if (!userActual) {
+            throw new common_1.NotFoundException(`User with id ${id} not found`);
+        }
+        return await this.repository.save(userActual);
+    }
+    async deleteUserById(id) {
+        const userRemove = await this.repository.findOneBy({
+            id: id
+        });
+        return await this.repository.remove(userRemove);
+    }
     async refreshToken(refreshToken) {
         return this.jwtService.refreshToken(refreshToken);
     }
