@@ -4,9 +4,11 @@ import { UserI } from 'src/interfaces/user.interface';
 import { UserEntity } from '../entities/user.entity';
 import { JwtService } from 'src/jwt/jwt.service';
 import { DeepPartial } from 'typeorm';
+import { PermissionEntity } from 'src/entities/permission.entity';
 export declare class UsersService {
     private jwtService;
     repository: typeof UserEntity;
+    permissionsRepository: typeof PermissionEntity;
     constructor(jwtService: JwtService);
     createUsers(users: DeepPartial<UserEntity>): Promise<UserEntity>;
     findUsers(): Promise<UserEntity[]>;
@@ -28,4 +30,7 @@ export declare class UsersService {
         refreshToken: string;
     }>;
     findByEmail(email: string): Promise<UserEntity>;
+    assignPermissionToUser(userId: number, body: {
+        permissionId: number;
+    }): Promise<UserEntity>;
 }

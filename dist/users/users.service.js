@@ -14,10 +14,12 @@ const common_1 = require("@nestjs/common");
 const user_entity_1 = require("../entities/user.entity");
 const bcrypt_1 = require("bcrypt");
 const jwt_service_1 = require("../jwt/jwt.service");
+const permission_entity_1 = require("../entities/permission.entity");
 let UsersService = class UsersService {
     constructor(jwtService) {
         this.jwtService = jwtService;
         this.repository = user_entity_1.UserEntity;
+        this.permissionsRepository = permission_entity_1.PermissionEntity;
     }
     async createUsers(users) {
         try {
@@ -89,6 +91,28 @@ let UsersService = class UsersService {
     }
     async findByEmail(email) {
         return await this.repository.findOneBy({ email });
+    }
+    async assignPermissionToUser(userId, body) {
+        console.log(`Assigning permission with ID ${body} to user with ID ${userId}`);
+        const user = await this.repository.findOne({
+            where: { id: userId },
+            relations: ['permissions'],
+        });
+        if (!user) {
+            console.error(`User with ID ${userId} not found`);
+            throw new common_1.NotFoundException(`User with ID ${userId} not found`);
+        }
+        const permission = await this.permissionsRepository.findOne({ where: { id: body.permissionId } });
+        if (!permission) {
+            console.error(`Permission with ID ${body.permissionId} not found`);
+            throw new common_1.NotFoundException(`Permission with ID ${body.permissionId} not found`);
+        }
+        if (!user.permissions) {
+            user.permissions = [];
+        }
+        user.permissions.push(permission);
+        await user.save();
+        return user;
     }
 };
 exports.UsersService = UsersService;
