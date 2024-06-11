@@ -58,11 +58,16 @@ export class UsersService {
   }
 
   async canDo(user: UserI, permission: string) {
+    console.log("entro aca service")
+    console.log("entro aca");
+    
     const result = user.permissionCodes.includes(permission);
     if (!result) {
       throw new UnauthorizedException('Usuario no autorizado.')
     }
+
     //Falta asignarle el permiso al usuario
+
     return true;
   }
 
@@ -80,13 +85,18 @@ export class UsersService {
 
   async login(body: LoginDTO) {
     const user = await this.findByEmail(body.email);
+    console.log(user);
     if (user == null) {
       throw new UnauthorizedException();
     }
+
+    console.log(user.password, body.password)// las password son distintar porque la que se guarda en base de datos esta encriptada
+
     const compareResult = compareSync(body.password, user.password);
     if (!compareResult) {
       throw new UnauthorizedException();
     }
+
     return {
       accessToken: this.jwtService.generateToken({ email: user.email }),
       refreshToken: this.jwtService.generateToken(
@@ -95,12 +105,12 @@ export class UsersService {
       ),
     };
   }
+
   async findByEmail(email: string): Promise<UserEntity> {
     return await this.repository.findOneBy({ email });
   }
 
 
-  //creo que no deberia crear un repositorio de permisos en el servicio de usuarios, deberia hacerle un get al servicio de permisos
   async assignPermissionToUser(userId: number, body: { permissionId: number }): Promise<UserEntity> {
     
     const user = await this.repository.findOne({
@@ -114,7 +124,6 @@ export class UsersService {
     }
     const permission = await this.permissionsService.findPermissionById(body.permissionId );
 
-    //const permission = await this.permissionsRepository.findOne({ where: { id: body.permissionId } });
     if (!permission) {
       console.error(`Permission with ID ${body.permissionId} not found`);
       throw new NotFoundException(`Permission with ID ${body.permissionId} not found`);

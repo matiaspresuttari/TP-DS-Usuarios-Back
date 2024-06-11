@@ -25,6 +25,6 @@ export class UserEntity extends BaseEntity implements UserI {
   permissions: PermissionEntity[];
 
   get permissionCodes() {
-    return ['create-users'];
+    return this.permissions.map(permission => permission.id.toString());
   }
 }

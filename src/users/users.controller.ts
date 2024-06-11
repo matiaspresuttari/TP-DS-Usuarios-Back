@@ -26,6 +26,8 @@ export class UsersController {
     async findUsers(): Promise<UserEntity[]>{
         return await this.usersService.findUsers();
     }
+ 
+    
 
   @Put(':id')
     async updateUserById(@Param('id') id:number , @Body() bodyUpdateUsers: DeepPartial<UserEntity>): Promise<UserEntity> {
@@ -37,28 +39,29 @@ export class UsersController {
         return await this.usersService.deleteUserById(id);
     }
 
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard) //esto no anda, porque no pasamos bien el token!!!!!
   @Get('me')
     me(@Req() req: Request & { user: UserEntity }) {
       return req.user.firstName;
     }
+
 
   @Post('login')
     login(@Body() body: LoginDTO) {
       return this.usersService.login(body);
     }
 
+
+
   @Post('register')
     register(@Body() body: RegisterDTO) {
       return this.usersService.register(body);
     }
 
-  @UseGuards(AuthGuard)
-  @Get('can-do/:permission')
-    canDo(
-      @Req() request: Request & { user: UserEntity},
-      @Param('permission') permission: string,
-    ) {
+  @UseGuards(AuthGuard) //no pasa esta prueba
+  @Get('can-do/:permission') // Verifica si el usuario autenticado tiene el permiso especificado
+    canDo(@Req() request: Request & { user: UserEntity}, @Param('permission') permission: string) {
+      console.log("entro aca");
       return this.usersService.canDo(request.user, permission);
     }
 
@@ -69,8 +72,10 @@ export class UsersController {
       );
     }
 
-    @Post(':id/roles')  
+  @Post(':id/roles')  
     async assignRoleToUser(@Param('id') idUser: number, @Body() body: { roleId: number }): Promise<UserEntity> {
       return await this.usersService.assignRoleToUser(idUser, body);
     }
 }
+
+//13

@@ -15,7 +15,9 @@ class AuthGuard {
             if (token == null) {
                 throw new common_1.UnauthorizedException('El token no existe');
             }
+            console.log("fallo en el payl");
             const payload = this.jwtService.getPayload(token);
+            console.log("imprimo el payload", payload);
             const user = await this.userService.findByEmail(payload.email);
             request.user = user;
             return true;

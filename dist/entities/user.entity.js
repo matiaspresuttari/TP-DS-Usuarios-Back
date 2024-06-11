@@ -15,7 +15,7 @@ const role_entity_1 = require("./role.entity");
 const permission_entity_1 = require("./permission.entity");
 let UserEntity = class UserEntity extends typeorm_1.BaseEntity {
     get permissionCodes() {
-        return ['create-users'];
+        return this.permissions.map(permission => permission.id.toString());
     }
 };
 exports.UserEntity = UserEntity;

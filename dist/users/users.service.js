@@ -59,6 +59,8 @@ let UsersService = class UsersService {
         return this.jwtService.refreshToken(refreshToken);
     }
     async canDo(user, permission) {
+        console.log("entro aca service");
+        console.log("entro aca");
         const result = user.permissionCodes.includes(permission);
         if (!result) {
             throw new common_1.UnauthorizedException('Usuario no autorizado.');
@@ -79,9 +81,11 @@ let UsersService = class UsersService {
     }
     async login(body) {
         const user = await this.findByEmail(body.email);
+        console.log(user);
         if (user == null) {
             throw new common_1.UnauthorizedException();
         }
+        console.log(user.password, body.password);
         const compareResult = (0, bcrypt_1.compareSync)(body.password, user.password);
         if (!compareResult) {
             throw new common_1.UnauthorizedException();

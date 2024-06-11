@@ -47,6 +47,7 @@ let UsersController = class UsersController {
         return this.usersService.register(body);
     }
     canDo(request, permission) {
+        console.log("entro aca");
         return this.usersService.canDo(request.user, permission);
     }
     refreshToken(request) {
