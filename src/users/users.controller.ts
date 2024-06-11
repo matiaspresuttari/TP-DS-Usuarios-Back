@@ -12,75 +12,65 @@ import { DeepPartial } from 'typeorm';
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
+  @Post(':id/permissions')
+    async assignPermissionToUser(@Param('id') idUser: number, @Body() body: { permissionId: number }): Promise<UserEntity> {
+      return await this.usersService.assignPermissionToUser(idUser, body);
+    }
+
+  @Post()
+    async createUsers(@Body() bodyCreateUsers: DeepPartial<UserEntity>): Promise<UserEntity> {
+        return await this.usersService.createUsers(bodyCreateUsers);
+    }
+
+  @Get()
+    async findUsers(): Promise<UserEntity[]>{
+        return await this.usersService.findUsers();
+    }
+
+  @Put(':id')
+    async updateUserById(@Param('id') id:number , @Body() bodyUpdateUsers: DeepPartial<UserEntity>): Promise<UserEntity> {
+        return await this.usersService.updateUserById(id, bodyUpdateUsers);
+    }
+
+  @Delete(':id')
+    async deleteUserById(@Param('id') id:number): Promise <UserEntity> {
+        return await this.usersService.deleteUserById(id);
+    }
+
   @UseGuards(AuthGuard)
-
-
-@Post()
-  async createUsers(@Body() bodyCreateUsers: DeepPartial<UserEntity>): Promise<UserEntity> {
-      return await this.usersService.createUsers(bodyCreateUsers);
-  }
-
-@Get()
-  async findUsers(): Promise<UserEntity[]>{
-      return await this.usersService.findUsers();
-  }
-
-@Put(':id')
-async updateUserById(@Param('id') id:number , @Body() bodyUpdateUsers: DeepPartial<UserEntity>): Promise<UserEntity> {
-    return await this.usersService.updateUserById(id, bodyUpdateUsers);
-}
-
-@Delete(':id')
-async deleteUsetById(@Param('id') id:number): Promise <UserEntity> {
-    return await this.usersService.deleteUserById(id);
-}
-
-//{
-//  "email": "correo@example.com",
-//  "password": "contraseña123",
-//  "firstName": "nombre_del_usuario",
-//   "lastName": "apellido"
-//}
-
-//  @Get()
-
-//id
-
-//  @Put()
-
-//id
-
-
-
-
   @Get('me')
-  me(@Req() req: Request & { user: UserEntity }) {
-    return req.user.firstName;
-  }
+    me(@Req() req: Request & { user: UserEntity }) {
+      return req.user.firstName;
+    }
 
   @Post('login')
-  login(@Body() body: LoginDTO) {
-    return this.usersService.login(body);
-  }
+    login(@Body() body: LoginDTO) {
+      return this.usersService.login(body);
+    }
 
   @Post('register')
-  register(@Body() body: RegisterDTO) {
-    return this.usersService.register(body);
-  }
+    register(@Body() body: RegisterDTO) {
+      return this.usersService.register(body);
+    }
 
   @UseGuards(AuthGuard)
   @Get('can-do/:permission')
-  canDo(
-    @Req() request: Request & { user: UserEntity},
-    @Param('permission') permission: string,
-  ) {
-    return this.usersService.canDo(request.user, permission);
-  }
+    canDo(
+      @Req() request: Request & { user: UserEntity},
+      @Param('permission') permission: string,
+    ) {
+      return this.usersService.canDo(request.user, permission);
+    }
 
   @Get('refresh-token')
-  refreshToken(@Req() request: Request) {
-    return this.usersService.refreshToken(
-      request.headers['refresh-token'] as string,
-    );
-  }
+    refreshToken(@Req() request: Request) {
+      return this.usersService.refreshToken(
+        request.headers['refresh-token'] as string,
+      );
+    }
+
+    @Post(':id/roles')  
+    async assignRoleToUser(@Param('id') idUser: number, @Body() body: { roleId: number }): Promise<UserEntity> {
+      return await this.usersService.assignRoleToUser(idUser, body);
+    }
 }

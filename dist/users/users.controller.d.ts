@@ -7,10 +7,13 @@ import { DeepPartial } from 'typeorm';
 export declare class UsersController {
     private usersService;
     constructor(usersService: UsersService);
+    assignPermissionToUser(idUser: number, body: {
+        permissionId: number;
+    }): Promise<UserEntity>;
     createUsers(bodyCreateUsers: DeepPartial<UserEntity>): Promise<UserEntity>;
     findUsers(): Promise<UserEntity[]>;
     updateUserById(id: number, bodyUpdateUsers: DeepPartial<UserEntity>): Promise<UserEntity>;
-    deleteUsetById(id: number): Promise<UserEntity>;
+    deleteUserById(id: number): Promise<UserEntity>;
     me(req: Request & {
         user: UserEntity;
     }): string;
@@ -31,4 +34,7 @@ export declare class UsersController {
         accessToken: string;
         refreshToken?: undefined;
     }>;
+    assignRoleToUser(idUser: number, body: {
+        roleId: number;
+    }): Promise<UserEntity>;
 }

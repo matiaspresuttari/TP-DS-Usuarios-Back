@@ -8,4 +8,5 @@ export declare class PermissionsController {
     findPermissions(): Promise<PermissionEntity[]>;
     updatePermissionById(id: number, bodyUpdatePermissions: DeepPartial<PermissionEntity>): Promise<PermissionEntity>;
     deletePermissionById(id: number): Promise<PermissionEntity>;
+    findPermissionById(id: number): Promise<PermissionEntity>;
 }

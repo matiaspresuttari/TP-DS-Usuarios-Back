@@ -5,6 +5,7 @@ export declare class PermissionsService {
     constructor(repository: Repository<PermissionEntity>);
     createPermissions(permission: DeepPartial<PermissionEntity>): Promise<PermissionEntity>;
     findPermissions(): Promise<PermissionEntity[]>;
+    findPermissionById(id: number): Promise<PermissionEntity>;
     updatePermissionById(id: number, permission: DeepPartial<PermissionEntity>): Promise<PermissionEntity>;
     deletePermissionById(id: number): Promise<PermissionEntity>;
 }

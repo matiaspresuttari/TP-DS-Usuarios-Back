@@ -17,6 +17,7 @@ export class PermissionsService {
             throw new HttpException('Create product error', 500)
         }
     }
+    
     async findPermissions(){
         try {            
             return await this.repository.find();
@@ -24,6 +25,15 @@ export class PermissionsService {
             throw new HttpException('Find all products error', 500)
         } 
     }
+
+    async findPermissionById(id: number): Promise<PermissionEntity> {
+        const permission = await this.repository.findOne({where:{id}});
+        if (!permission) {
+            throw new NotFoundException(`Permission with id ${id} not found`);
+        }
+        return permission;
+    }
+
     async updatePermissionById(id: number, permission: DeepPartial<PermissionEntity>): Promise<PermissionEntity> {
         const query = this.repository.createQueryBuilder('permission')
             .where('permission.id = :id', { id });

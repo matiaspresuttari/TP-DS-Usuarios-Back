@@ -31,6 +31,9 @@ let PermissionsController = class PermissionsController {
     async deletePermissionById(id) {
         return await this.permissionsService.deletePermissionById(id);
     }
+    async findPermissionById(id) {
+        return await this.permissionsService.findPermissionById(id);
+    }
 };
 exports.PermissionsController = PermissionsController;
 __decorate([
@@ -61,6 +64,13 @@ __decorate([
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], PermissionsController.prototype, "deletePermissionById", null);
+__decorate([
+    (0, common_1.Get)(':id'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], PermissionsController.prototype, "findPermissionById", null);
 exports.PermissionsController = PermissionsController = __decorate([
     (0, common_1.Controller)('permissions'),
     __metadata("design:paramtypes", [permissions_service_1.PermissionsService])

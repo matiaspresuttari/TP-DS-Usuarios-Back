@@ -6,13 +6,18 @@ import { UserEntity } from '../entities/user.entity';
 import { hashSync, compareSync } from 'bcrypt';
 import { JwtService } from 'src/jwt/jwt.service';
 import { Repository, DeepPartial} from 'typeorm';
-
+import { PermissionsService } from 'src/permissions/permissions.service';
+import { RolesService } from 'src/roles/roles.service';
 
 
 @Injectable()
 export class UsersService {
-  repository = UserEntity;
-  constructor(private jwtService: JwtService) {}
+  repository = UserEntity; 
+  constructor(
+    private permissionsService: PermissionsService,
+    private jwtService: JwtService, // Inyecta JwtService
+    private rolesService: RolesService
+  ) {}
 
   async createUsers(users: DeepPartial<UserEntity>) {
     try {
@@ -71,7 +76,6 @@ export class UsersService {
     } catch (error) {
       throw new HttpException('Error de creacion',500);
     }
-    
   }
 
   async login(body: LoginDTO) {
@@ -93,5 +97,62 @@ export class UsersService {
   }
   async findByEmail(email: string): Promise<UserEntity> {
     return await this.repository.findOneBy({ email });
+  }
+
+
+  //creo que no deberia crear un repositorio de permisos en el servicio de usuarios, deberia hacerle un get al servicio de permisos
+  async assignPermissionToUser(userId: number, body: { permissionId: number }): Promise<UserEntity> {
+    
+    const user = await this.repository.findOne({
+      where: { id: userId },
+      relations: ['permissions'],
+    });
+
+    if (!user) {
+      console.error(`User with ID ${userId} not found`);
+      throw new NotFoundException(`User with ID ${userId} not found`);
+    }
+    const permission = await this.permissionsService.findPermissionById(body.permissionId );
+
+    //const permission = await this.permissionsRepository.findOne({ where: { id: body.permissionId } });
+    if (!permission) {
+      console.error(`Permission with ID ${body.permissionId} not found`);
+      throw new NotFoundException(`Permission with ID ${body.permissionId} not found`);
+    }
+
+    if (!user.permissions) {
+      user.permissions = [];
+    }
+    user.permissions.push(permission); //le agrega el permiso a users
+    await user.save();
+    
+    return user;
+  }
+
+  async assignRoleToUser(userId: number, body: { roleId: number }): Promise<UserEntity> {
+    
+    const user = await this.repository.findOne({
+      where: { id: userId },
+      relations: ['roles'],
+    });
+
+    if (!user) {
+      console.error(`User with ID ${userId} not found`);
+      throw new NotFoundException(`User with ID ${userId} not found`);
+    }
+    const role = await this.rolesService.findRoleById(body.roleId);
+
+    if (!role) {
+      console.error(`Role with ID ${body.roleId} not found`);
+      throw new NotFoundException(`Role with ID ${body.roleId} not found`);
+    }
+
+    if (!user.roles) {
+      user.roles = [];
+    }
+    user.roles.push(role); // le agrega el rol a user
+    await user.save();
+    
+    return user;
   }
 }

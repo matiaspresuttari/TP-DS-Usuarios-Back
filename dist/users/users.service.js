@@ -14,9 +14,13 @@ const common_1 = require("@nestjs/common");
 const user_entity_1 = require("../entities/user.entity");
 const bcrypt_1 = require("bcrypt");
 const jwt_service_1 = require("../jwt/jwt.service");
+const permissions_service_1 = require("../permissions/permissions.service");
+const roles_service_1 = require("../roles/roles.service");
 let UsersService = class UsersService {
-    constructor(jwtService) {
+    constructor(permissionsService, jwtService, rolesService) {
+        this.permissionsService = permissionsService;
         this.jwtService = jwtService;
+        this.rolesService = rolesService;
         this.repository = user_entity_1.UserEntity;
     }
     async createUsers(users) {
@@ -90,10 +94,54 @@ let UsersService = class UsersService {
     async findByEmail(email) {
         return await this.repository.findOneBy({ email });
     }
+    async assignPermissionToUser(userId, body) {
+        const user = await this.repository.findOne({
+            where: { id: userId },
+            relations: ['permissions'],
+        });
+        if (!user) {
+            console.error(`User with ID ${userId} not found`);
+            throw new common_1.NotFoundException(`User with ID ${userId} not found`);
+        }
+        const permission = await this.permissionsService.findPermissionById(body.permissionId);
+        if (!permission) {
+            console.error(`Permission with ID ${body.permissionId} not found`);
+            throw new common_1.NotFoundException(`Permission with ID ${body.permissionId} not found`);
+        }
+        if (!user.permissions) {
+            user.permissions = [];
+        }
+        user.permissions.push(permission);
+        await user.save();
+        return user;
+    }
+    async assignRoleToUser(userId, body) {
+        const user = await this.repository.findOne({
+            where: { id: userId },
+            relations: ['roles'],
+        });
+        if (!user) {
+            console.error(`User with ID ${userId} not found`);
+            throw new common_1.NotFoundException(`User with ID ${userId} not found`);
+        }
+        const role = await this.rolesService.findRoleById(body.roleId);
+        if (!role) {
+            console.error(`Role with ID ${body.roleId} not found`);
+            throw new common_1.NotFoundException(`Role with ID ${body.roleId} not found`);
+        }
+        if (!user.roles) {
+            user.roles = [];
+        }
+        user.roles.push(role);
+        await user.save();
+        return user;
+    }
 };
 exports.UsersService = UsersService;
 exports.UsersService = UsersService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [jwt_service_1.JwtService])
+    __metadata("design:paramtypes", [permissions_service_1.PermissionsService,
+        jwt_service_1.JwtService,
+        roles_service_1.RolesService])
 ], UsersService);
 //# sourceMappingURL=users.service.js.map

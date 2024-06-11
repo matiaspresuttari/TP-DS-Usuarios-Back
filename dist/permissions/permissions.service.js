@@ -38,6 +38,13 @@ let PermissionsService = class PermissionsService {
             throw new http_exception_1.HttpException('Find all products error', 500);
         }
     }
+    async findPermissionById(id) {
+        const permission = await this.repository.findOne({ where: { id } });
+        if (!permission) {
+            throw new common_1.NotFoundException(`Permission with id ${id} not found`);
+        }
+        return permission;
+    }
     async updatePermissionById(id, permission) {
         const query = this.repository.createQueryBuilder('permission')
             .where('permission.id = :id', { id });

@@ -18,6 +18,9 @@ let RolesController = class RolesController {
     constructor(rolesService) {
         this.rolesService = rolesService;
     }
+    async assignPermissionToRole(idRole, body) {
+        return await this.rolesService.assignPermissionToRole(idRole, body);
+    }
     async findRoles() {
         return await this.rolesService.findRoles();
     }
@@ -31,6 +34,14 @@ let RolesController = class RolesController {
         return await this.rolesService.updateRole(id, bodyUpdateRole);
     }
 };
+__decorate([
+    (0, common_1.Post)(':id/permissions'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Object]),
+    __metadata("design:returntype", Promise)
+], RolesController.prototype, "assignPermissionToRole", null);
 __decorate([
     (0, common_1.Get)(),
     __metadata("design:type", Function),

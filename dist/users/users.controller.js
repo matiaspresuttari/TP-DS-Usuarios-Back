@@ -22,6 +22,9 @@ let UsersController = class UsersController {
     constructor(usersService) {
         this.usersService = usersService;
     }
+    async assignPermissionToUser(idUser, body) {
+        return await this.usersService.assignPermissionToUser(idUser, body);
+    }
     async createUsers(bodyCreateUsers) {
         return await this.usersService.createUsers(bodyCreateUsers);
     }
@@ -31,7 +34,7 @@ let UsersController = class UsersController {
     async updateUserById(id, bodyUpdateUsers) {
         return await this.usersService.updateUserById(id, bodyUpdateUsers);
     }
-    async deleteUsetById(id) {
+    async deleteUserById(id) {
         return await this.usersService.deleteUserById(id);
     }
     me(req) {
@@ -49,10 +52,20 @@ let UsersController = class UsersController {
     refreshToken(request) {
         return this.usersService.refreshToken(request.headers['refresh-token']);
     }
+    async assignRoleToUser(idUser, body) {
+        return await this.usersService.assignRoleToUser(idUser, body);
+    }
 };
 exports.UsersController = UsersController;
 __decorate([
-    (0, common_1.UseGuards)(auth_middleware_1.AuthGuard),
+    (0, common_1.Post)(':id/permissions'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Object]),
+    __metadata("design:returntype", Promise)
+], UsersController.prototype, "assignPermissionToUser", null);
+__decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -79,8 +92,9 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
-], UsersController.prototype, "deleteUsetById", null);
+], UsersController.prototype, "deleteUserById", null);
 __decorate([
+    (0, common_1.UseGuards)(auth_middleware_1.AuthGuard),
     (0, common_1.Get)('me'),
     __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
@@ -117,6 +131,14 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "refreshToken", null);
+__decorate([
+    (0, common_1.Post)(':id/roles'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Object]),
+    __metadata("design:returntype", Promise)
+], UsersController.prototype, "assignRoleToUser", null);
 exports.UsersController = UsersController = __decorate([
     (0, common_1.Controller)('users'),
     __metadata("design:paramtypes", [users_service_1.UsersService])

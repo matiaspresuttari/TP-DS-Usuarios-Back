@@ -20,6 +20,7 @@ exports.PermissionsModule = PermissionsModule = __decorate([
         imports: [typeorm_1.TypeOrmModule.forFeature([permission_entity_1.PermissionEntity])],
         providers: [permissions_service_1.PermissionsService],
         controllers: [permissions_controller_1.PermissionsController],
+        exports: [permissions_service_1.PermissionsService]
     })
 ], PermissionsModule);
 //# sourceMappingURL=permissions.module.js.map

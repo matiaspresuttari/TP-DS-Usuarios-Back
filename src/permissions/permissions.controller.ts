@@ -25,4 +25,9 @@ export class PermissionsController {
         async deletePermissionById(@Param('id') id: number): Promise<PermissionEntity> {
             return await this.permissionsService.deletePermissionById(id);
     }
+
+    @Get(':id')
+        async findPermissionById(@Param('id') id: number): Promise<PermissionEntity> {
+            return await this.permissionsService.findPermissionById(id);
+    }
 }
