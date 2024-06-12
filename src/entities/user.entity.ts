@@ -16,15 +16,19 @@ export class UserEntity extends BaseEntity implements UserI {
   @Column()
   lastName: string;
 
-  @ManyToMany(() => RoleEntity, role => role.users)
+  @ManyToMany(() => RoleEntity, role => role.users , { eager: true })
   @JoinTable()
   roles: RoleEntity[];
 
-  @ManyToMany(() => PermissionEntity, permission => permission.users)
+  @ManyToMany(() => PermissionEntity, permission => permission.users, { eager: true })
   @JoinTable()
   permissions: PermissionEntity[];
 
+
   get permissionCodes() {
-    return ['create-users'];
+    if (!this.permissions) {
+      return [];
+    }
+    return this.permissions.map(permission => permission.name);
   }
 }
