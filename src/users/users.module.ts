@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 import { JwtModule } from 'src/jwt/jwt.module';
-import { PermissionsService } from 'src/permissions/permissions.service';
 import { PermissionsModule } from 'src/permissions/permissions.module';
 import { RolesModule } from 'src/roles/roles.module';
 

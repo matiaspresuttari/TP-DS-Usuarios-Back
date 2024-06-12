@@ -28,11 +28,11 @@ export class UsersService {
   }
 
   async findUsers(): Promise<UserEntity[]>{
-    try {            
-      return await this.repository.find();
-  } catch (error) {
-      throw new HttpException('Find all products error', 500)
-  } 
+      try {            
+        return await this.repository.find();
+    } catch (error) {
+        throw new HttpException('Find all products error', 500)
+    } 
   }
 
   async updateUserById(id: number, user: DeepPartial<UserEntity>): Promise<UserEntity> {
@@ -57,16 +57,12 @@ export class UsersService {
     return this.jwtService.refreshToken(refreshToken);
   }
 
-  async canDo(user: UserI, permission: string) {
-    console.log("entro aca service")
-    console.log("entro aca");
-    
+  async canDo(user: UserI, permission: string) {   
     const result = user.permissionCodes.includes(permission);
     if (!result) {
-      throw new UnauthorizedException('Usuario no autorizado.')
+      throw new HttpException('El usuario no tiene el Permiso', 401);
     }
 
-    //Falta asignarle el permiso al usuario
 
     return true;
   }
@@ -85,12 +81,9 @@ export class UsersService {
 
   async login(body: LoginDTO) {
     const user = await this.findByEmail(body.email);
-    console.log(user);
     if (user == null) {
       throw new UnauthorizedException();
     }
-
-    console.log(user.password, body.password)// las password son distintar porque la que se guarda en base de datos esta encriptada
 
     const compareResult = compareSync(body.password, user.password);
     if (!compareResult) {

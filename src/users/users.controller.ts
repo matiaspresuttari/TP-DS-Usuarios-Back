@@ -2,7 +2,6 @@ import { Body, Controller, Get, Param, Post, Req,Put, Delete, UseGuards } from '
 import { UsersService } from './users.service';
 import { LoginDTO } from '../interfaces/login.dto';
 import { RegisterDTO } from '../interfaces/register.dto';
-import { RequestWithUser } from 'src/interfaces/request-user';
 import { Request } from 'express';
 import { UserEntity } from 'src/entities/user.entity';
 import { AuthGuard } from 'src/middlewares/auth.middleware';
@@ -61,7 +60,6 @@ export class UsersController {
   @UseGuards(AuthGuard) //no pasa esta prueba
   @Get('can-do/:permission') // Verifica si el usuario autenticado tiene el permiso especificado
     canDo(@Req() request: Request & { user: UserEntity}, @Param('permission') permission: string) {
-      console.log("entro aca");
       return this.usersService.canDo(request.user, permission);
     }
 
@@ -78,4 +76,4 @@ export class UsersController {
     }
 }
 
-//13
+//13 - Gracias Fede

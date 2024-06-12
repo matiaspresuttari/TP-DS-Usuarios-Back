@@ -1,36 +1,40 @@
-import { CanActivate, ExecutionContext, UnauthorizedException } from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from 'src/jwt/jwt.service';
-import { Request } from 'express';
 import { UsersService } from 'src/users/users.service';
+import { Request } from 'express';
 import { UserEntity } from 'src/entities/user.entity';
 
+@Injectable() // Añadir el decorador Injectable
 export class AuthGuard implements CanActivate {
-    constructor(
-        private jwtService: JwtService, 
-        private userService: UsersService
-    ) {}
-    async canActivate(context: ExecutionContext): Promise<boolean> {
-        try {
-            const request: Request & {user:UserEntity} = context.switchToHttp().getRequest();
-            const token = request.headers.authorization;
+  constructor(
+    private readonly jwtService: JwtService, 
+    private readonly userService: UsersService
+  ) {console.log(jwtService);}
+  
+  
 
-            console.log(token); // imprime el token
-
-            if (token == null) {
-                throw new UnauthorizedException('El token no existe');
-            }
-
-            console.log("fallo en el payl")
-            const payload = this.jwtService.getPayload(token);
-            
-            console.log("imprimo el payload",payload); // imprime el payload
-
-            const user = await this.userService.findByEmail(payload.email);
-            request.user = user;
-            return true;
-        } catch (error) {
-            console.log(error);
-            throw new UnauthorizedException('El token no es valido');
-        }
+  async canActivate(context: ExecutionContext): Promise<boolean> {
+    try {
+      const request: Request & { user: UserEntity } = context.switchToHttp().getRequest();
+      const authorizationHeader = request.headers.authorization;
+    
+      if (!authorizationHeader || !authorizationHeader.startsWith('Bearer ')) {
+        throw new UnauthorizedException('Invalid Authorization header');
+      }
+    
+      const token = authorizationHeader.split(' ')[1];
+    
+      if (!token) {
+        throw new UnauthorizedException('Token not found');
+      }
+    
+      const payload = await this.jwtService.getPayload(token);
+      const user = await this.userService.findByEmail(payload.email);
+      request.user = user;
+      return true;
+    } catch (error) {
+      console.log(error);
+      throw new UnauthorizedException('Invalid token');
     }
+  }
 }

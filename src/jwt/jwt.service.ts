@@ -3,9 +3,7 @@ import { sign, verify } from 'jsonwebtoken';
 import { Payload } from 'src/interfaces/payload';
 
 @Injectable()
-
 export class JwtService {
-  // config.ts
   config = {
     auth: {
       secret: 'authSecret',
@@ -16,6 +14,7 @@ export class JwtService {
       expiresIn: '1d',
     },
   };
+
   generateToken(
     payload: { email: string },
     type: 'refresh' | 'auth' = 'auth',
@@ -27,26 +26,25 @@ export class JwtService {
 
   refreshToken(refreshToken: string) {
     try {
-      const payload = verify(
-        refreshToken,
-        this.config.refresh.secret,
-      ) as Payload;
+      const payload = verify(refreshToken, this.config.refresh.secret) as Payload;
       const currentTime = Math.floor(Date.now() / 1000);
       const timeToExpire = (payload.exp - currentTime) / 60;
-      if (timeToExpire < 20) {
+      if (timeToExpire < 20) { // Si el token está a menos de 20 minutos de expirar
         return {
           accessToken: this.generateToken({ email: payload.email }),
           refreshToken: this.generateToken({ email: payload.email }, 'refresh'),
         };
+      } else {
+        return {
+          accessToken: this.generateToken({ email: payload.email }),
+        };
       }
-      return {
-        accessToken: this.generateToken({ email: payload.email }),
-      };
     } catch (error) {
-      throw new UnauthorizedException()
+      throw new UnauthorizedException();
     }
   }
+
   getPayload(token: string, type: 'refresh' | 'auth' = 'auth'): Payload{
-    return verify(token, this.config[type].secret) as Payload;
-  }
+    return  verify(token, this.config[type].secret) as Payload;
+  }  
 }
