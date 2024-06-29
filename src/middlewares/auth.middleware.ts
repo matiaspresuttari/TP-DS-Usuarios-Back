@@ -9,10 +9,7 @@ export class AuthGuard implements CanActivate {
   constructor(
     private readonly jwtService: JwtService, 
     private readonly userService: UsersService
-  ) {console.log(jwtService);}
-  
-  
-
+  ){}
   async canActivate(context: ExecutionContext): Promise<boolean> {
     try {
       const request: Request & { user: UserEntity } = context.switchToHttp().getRequest();
@@ -33,7 +30,6 @@ export class AuthGuard implements CanActivate {
       request.user = user;
       return true;
     } catch (error) {
-      console.log(error);
       throw new UnauthorizedException('Invalid token');
     }
   }
