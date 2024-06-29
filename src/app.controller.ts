@@ -17,7 +17,6 @@ export class AppController {
     @Query() query: { all?: boolean },
     @Param() params:{type:string}
   ): string | {number:number;date:Date;creator:string} {
-    console.log(query);
     return this.AppService.getVersion(query);
   }
 }

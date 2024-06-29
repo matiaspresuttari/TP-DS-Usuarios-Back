@@ -1,6 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { sign, verify } from 'jsonwebtoken';
 import { Payload } from 'src/interfaces/payload';
+import * as moment from 'moment';
 
 @Injectable()
 export class JwtService {
@@ -33,10 +34,12 @@ export class JwtService {
         return {
           accessToken: this.generateToken({ email: payload.email }),
           refreshToken: this.generateToken({ email: payload.email }, 'refresh'),
+          expirationTime: moment().add(10, 'minutes').toDate(),
         };
       } else {
         return {
           accessToken: this.generateToken({ email: payload.email }),
+          expirationTime: moment().add(10, 'minutes').toDate(),
         };
       }
     } catch (error) {

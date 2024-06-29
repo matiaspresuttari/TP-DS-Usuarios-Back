@@ -9,6 +9,7 @@ import { PermissionsModule } from './permissions/permissions.module';
 import { RolesModule } from './roles/roles.module';
 import { UsersModule } from './users/users.module';
 import { LoginModule } from './login/login.module';
+import { RefreshModule } from './refresh/refresh.module';
 
 
 @Module({
@@ -24,7 +25,8 @@ import { LoginModule } from './login/login.module';
     PermissionsModule,
     RolesModule,
     UsersModule,
-    LoginModule
+    LoginModule, 
+    RefreshModule
   ],
   controllers: [AppController],
   providers: [AppService],

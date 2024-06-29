@@ -35,6 +35,8 @@ export class UsersService {
     } 
   }
 
+
+
   async updateUserById(id: number, user: DeepPartial<UserEntity>): Promise<UserEntity> {
     const query = this.repository.createQueryBuilder('user')
         .where('user.id = :id', { id });
@@ -112,13 +114,11 @@ export class UsersService {
     });
 
     if (!user) {
-      console.error(`User with ID ${userId} not found`);
       throw new NotFoundException(`User with ID ${userId} not found`);
     }
     const permission = await this.permissionsService.findPermissionById(body.permissionId );
 
     if (!permission) {
-      console.error(`Permission with ID ${body.permissionId} not found`);
       throw new NotFoundException(`Permission with ID ${body.permissionId} not found`);
     }
 
@@ -139,13 +139,11 @@ export class UsersService {
     });
 
     if (!user) {
-      console.error(`User with ID ${userId} not found`);
       throw new NotFoundException(`User with ID ${userId} not found`);
     }
     const role = await this.rolesService.findRoleById(body.roleId);
 
     if (!role) {
-      console.error(`Role with ID ${body.roleId} not found`);
       throw new NotFoundException(`Role with ID ${body.roleId} not found`);
     }
 
