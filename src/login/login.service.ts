@@ -14,7 +14,7 @@ export class LoginService {
 
     async login(body: LoginDTO) {
         const user = await this.usersService.findByEmail(body.email);
-        if (user == null) {
+        if (!user) {
             throw new UnauthorizedException();
         }
         const compareResult = compareSync(body.password, user.password);
