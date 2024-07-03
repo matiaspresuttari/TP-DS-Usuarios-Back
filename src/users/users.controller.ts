@@ -37,10 +37,10 @@ export class UsersController {
         return await this.usersService.deleteUserById(id);
     }
 
-  @UseGuards(AuthGuard) //esto no anda, porque no pasamos bien el token!!!!!
-  @Get('me')
-    me(@Req() req: Request & { user: UserEntity }) {
-      return req.user.firstName;
+  @UseGuards(AuthGuard) //si entra devuelve true, significa que tiene token,(no se si esta bien esto)
+  @Get('validateToken')
+    validateToken() {
+      return true;
     }
 
 
@@ -56,7 +56,7 @@ export class UsersController {
       return this.usersService.register(body);
     }
 
-  @UseGuards(AuthGuard) //no pasa esta prueba
+  @UseGuards(AuthGuard)
   @Get('can-do/:permission') // Verifica si el usuario autenticado tiene el permiso especificado
     canDo(@Req() request: Request & { user: UserEntity}, @Param('permission') permission: string) {
       return this.usersService.canDo(request.user, permission);
